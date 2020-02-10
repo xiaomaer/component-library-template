@@ -1,13 +1,6 @@
 import React from 'react';
-import { shallow, mount, render } from 'enzyme';
-import Text from '../components/Text';
-import toJson from 'enzyme-to-json';
-
-// UI测试:https://github.com/yuduxyz/blog/issues/2
-// it('匹配快照', () => {
-//     const wrapper = mount(<Text.Money value={123123123} />);
-//     expect(toJson(wrapper)).toMatchSnapshot();
-// });
+import { shallow } from 'enzyme';
+import Text from '../components/text';
 
 describe('# Component Text', () => {
     it('应该正确得到文本内容', () => {

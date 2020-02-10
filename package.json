@@ -1,17 +1,17 @@
 {
   "name": "component-library-template",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "react组件库项目模版",
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/xiaomaer/component-library-template"
   },
   "scripts": {
     "test": "jest --coverage",
     "test:dev": "jest --watch",
     "build": "webpack --mode development",
-    "pub": "npm run build && npm publish"
+    "publish": "npm run build && npm publish"
   },
   "keywords": [
     "react",
