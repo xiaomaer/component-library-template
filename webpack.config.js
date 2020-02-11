@@ -4,6 +4,17 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HappyPack = require('happypack');
+const os = require('os');
+const happyThreadPool = HappyPack.ThreadPool({ size: os.cpus().length });
+const createHappyPlugin = (id, loaders) => new HappyPack({
+    id: id,
+    loaders: loaders,
+    threadPool: happyThreadPool,
+    verbose: true
+});
+
+const _COM = path.resolve(__dirname, 'components');
 
 module.exports = {
     entry: getEntryConfig(),
@@ -18,39 +29,37 @@ module.exports = {
             if (/.jsx|.jpg|.png|.gif|.svg|.jpeg|.scss$/g.test(request)) {
                 return callback();
             }
+            // 定义需要外部化的模块类型
             callback(null, request);
         }
     ],
     resolve: {
-        extensions: ['.js', '.css', '.json', '.jsx']
+        extensions: ['.jsx', '.js', '.scss', '.css'],
+        modules: [_COM, 'node_modules']
     },
     module: {
         rules: [
             {
                 test: /.jsx|.js$/,
-                loader: 'babel-loader',
-                exclude: /node_modules/
+                include: _COM,
+                exclude: /node_modules/,
+                use: "happypack/loader?id=happy-babel"
             }, {
                 test: /\.(jpg|png|gif|svg|jpeg)$/,
                 loader: 'url-loader',
+                include: _COM,
                 exclude: /node_modules/
             },
             {
                 test: /\.scss$/,
+                include: _COM,
                 exclude: /node_modules/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2 // 0 => 无 loader(默认); 1 => postcss-loader; 2 => postcss-loader, sass-loader
-                        }
-                    },
+                    MiniCssExtractPlugin.loader,
+                    'css-loader',
                     'postcss-loader',
                     'sass-loader'
-                ]
+                ],
             },
         ]
     },
@@ -65,6 +74,13 @@ module.exports = {
             watch: true,
             exclude: ['.git', '.npmignore', 'package.json', 'README.md']
         }),
+        createHappyPlugin('happy-babel', [{
+            loader: 'babel-loader',
+            options: {
+                babelrc: true,
+                cacheDirectory: true // 启用缓存
+            }
+        }]),
         new MiniCssExtractPlugin({
             filename: "[name].css",
         }),
@@ -91,6 +107,6 @@ function getEntryConfig() {
         const key = filePath.substring(0, filePath.lastIndexOf('.'));
         entryObj[key] = path.resolve(__dirname, item);
     });
-    console.log(entryObj, '========');
+    // console.log(entryObj, '========');
     return entryObj;
 }
