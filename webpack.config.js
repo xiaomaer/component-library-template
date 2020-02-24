@@ -17,13 +17,17 @@ const createHappyPlugin = (id, loaders) => new HappyPack({
 const _COM = path.resolve(__dirname, 'components');
 
 module.exports = {
+    mode: 'development',
     entry: getEntryConfig(),
     output: {
-        filename: "[name].js",
+        filename: (chunkData) => {
+            return chunkData.chunk.name === 'index' ? '[name].js' : '[name]/index.js';
+        },
         path: __dirname + '/lib',
         libraryTarget: 'umd'
     },
     externals: [
+        // 排除第三方包
         function (context, request, callback) {
             // 允许编译以下后缀文件
             if (/.jsx|.jpg|.png|.gif|.svg|.jpeg|.scss$/g.test(request)) {
@@ -82,7 +86,7 @@ module.exports = {
             }
         }]),
         new MiniCssExtractPlugin({
-            filename: "[name].css",
+            filename: "[name]/style/index.css",
         }),
         /*  new CopyPlugin([{
              from: './components/style',
@@ -103,8 +107,9 @@ function getFileCollection() {
 function getEntryConfig() {
     let entryObj = {};
     getFileCollection().forEach(item => {
-        const filePath = item.replace('./components', '');
-        const key = filePath.substring(0, filePath.lastIndexOf('.'));
+        const filePath = item.replace('./components/', '');
+        const index = filePath.indexOf('/')
+        const key = index === -1 ? filePath.substring(0, filePath.lastIndexOf('.')) : filePath.substring(0, index);
         entryObj[key] = path.resolve(__dirname, item);
     });
     // console.log(entryObj, '========');

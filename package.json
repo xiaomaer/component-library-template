@@ -1,6 +1,6 @@
 {
   "name": "component-library-template",
-  "version": "0.0.3",
+  "version": "0.0.9",
   "description": "react组件库项目模版",
   "main": "lib/index.js",
   "repository": {
@@ -10,8 +10,7 @@
   "scripts": {
     "test": "jest --coverage",
     "test:dev": "jest --watch",
-    "build": "webpack --mode development",
-    "publish": "npm run build && npm publish"
+    "build": "webpack"
   },
   "keywords": [
     "react",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './index.scss';
+import './style/index.scss';
 
 export default class Tab extends Component {
     render() {

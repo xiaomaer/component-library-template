@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './index.scss';
+import './style/index.scss';
 // require("babel-polyfill");
 export default class Steps extends Component {
     constructor(props) {
