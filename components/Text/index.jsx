@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './style/index.scss';
+import './index.scss';
 
 export default class Text extends Component {
     render() {

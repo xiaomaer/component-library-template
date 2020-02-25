@@ -20,9 +20,7 @@ module.exports = {
     mode: 'development',
     entry: getEntryConfig(),
     output: {
-        filename: (chunkData) => {
-            return chunkData.chunk.name === 'index' ? '[name].js' : '[name]/index.js';
-        },
+        filename: '[name].js',
         path: __dirname + '/lib',
         libraryTarget: 'umd'
     },
@@ -86,7 +84,7 @@ module.exports = {
             }
         }]),
         new MiniCssExtractPlugin({
-            filename: "[name]/style/index.css",
+            filename: "[name].css",
         }),
         /*  new CopyPlugin([{
              from: './components/style',
@@ -108,10 +106,9 @@ function getEntryConfig() {
     let entryObj = {};
     getFileCollection().forEach(item => {
         const filePath = item.replace('./components/', '');
-        const index = filePath.indexOf('/')
-        const key = index === -1 ? filePath.substring(0, filePath.lastIndexOf('.')) : filePath.substring(0, index);
+        const key = filePath.substring(0, filePath.lastIndexOf('.'));
         entryObj[key] = path.resolve(__dirname, item);
     });
-    // console.log(entryObj, '========');
+    console.log(entryObj, '========');
     return entryObj;
 }
