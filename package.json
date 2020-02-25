@@ -10,7 +10,8 @@
   "scripts": {
     "test": "jest --coverage",
     "test:dev": "jest --watch",
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack-dev-server --progress --color --config webpack.config.demo.js"
   },
   "keywords": [
     "react",
@@ -44,8 +45,10 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.3",
+    "friendly-errors-webpack-plugin": "^1.7.0",
     "glob": "^7.1.6",
     "happypack": "^5.0.1",
+    "html-webpack-plugin": "^3.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
     "jest-svg-transformer": "^1.0.0",
@@ -55,11 +58,14 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
+    "progress-bar-webpack-plugin": "^2.1.0",
     "sass-loader": "^7.3.1",
+    "style-loader": "^1.1.3",
     "url-loader": "^2.3.0",
     "webpack": "^4.41.2",
     "webpack-bundle-analyzer": "^3.6.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.3"
   },
   "peerDependencies": {
     "react": ">=16.0.0",
